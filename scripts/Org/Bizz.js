@@ -1,7 +1,7 @@
 export default class Bizz{
 
     constructor(food){
-        this.speed = 0.8; //speed
+        this.speed = 3; //speed
         this.food = food;
         this.color = color(0,0,255);
     }
@@ -12,13 +12,13 @@ export default class Bizz{
     move(x,y){
 
         if(this.position.x <= 10){
-            this.position.add(createVector(12,0));
+            this.position.add(createVector(20,0));
         }else if(this.position.x >= width-20){
-            this.position.add(createVector(-12,0));
+            this.position.add(createVector(-20,0));
         }else if(this.position.y <= 10){
-            this.position.add(createVector(0,12));
+            this.position.add(createVector(0,20));
         }else if(this.position.y >= height-20){
-            this.position.add(createVector(0,-12));
+            this.position.add(createVector(0,-20));
         }else{
             this.position.add(this.speed * x, this.speed * y);
         }
@@ -29,23 +29,18 @@ export default class Bizz{
         fill(this.color);
         noStroke();
         ellipse(this.position.x,this.position.y,20,20);
-        
+
         if(this.foodAware()){
             this.color = color('yellow');
-            moveTowardsFood();
+            this.moveTowardsFood(this.food);
         }else{
-            this.randomMotion();
+            this.randomWalk();
         }
 
-        // console.log(this.position.dist(this.food.position));
-
-        // console.log(this.food.position.toString())
     }
 
     foodAware(){
         let distance = this.position.dist(this.food.position);
-
-        // console.log(distance);
 
         if(distance < 150){
             return true;
@@ -54,13 +49,28 @@ export default class Bizz{
     }
 
     moveTowardsFood(){
-        
+      console.log(this.food)
     }
 
-    randomMotion(){
-        let directionX = random([0,1,-1]);
-        let directionY = random([0,1,-1]);
-        this.move(directionX * 4, directionY * 4);
+    randomWalk(){
+
+        let rand = floor(random(4));
+
+
+        switch (rand) {
+          case 0:
+            this.position.x += this.speed;
+            break;
+          case 1:
+            this.position.x -= this.speed;
+            break;
+          case 2:
+            this.position.y += this.speed;
+            break;
+          case 3:
+          this.position.y -= this.speed;
+            break;
+        }
     }
 
 }
